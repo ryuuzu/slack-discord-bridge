@@ -32,12 +32,15 @@ async def on_message(message: discord.Message):
     author = message.author
     content = message.content
     message_to_send = f"*[DISCORD]* _{author}_: {content}"
-    if not(author.bot) and not(content.startswith("DNB")):
+    if content.startswith(discord_bot.command_prefix):
+        await discord_bot.process_commands(message)
+    elif not(author.bot) and not(content.startswith("DNB")):
         for channelLink in channelLinks:
             if channelLink['discord'] == str(channel.id):
                 rtm_client.send(channelLink['slack'], message_to_send)
             else:
                 continue
+    
 
 @commands.has_guild_permissions(administrator=True)
 @discord_bot.command(help="List all the channels from slack.", brief="Useful for `link`", aliases=['lsc'])
@@ -62,7 +65,7 @@ async def link(ctx, slack_channel_id):
     channel_dict['discord'] = str(channel_id)
     channelLinks.append(channel_dict)
     writefile("channels.json", channelLinks)
-    await ctx.send(f"This channel has been linked with {slack_channel['channel']['name']}")
+    await ctx.send(f"This channel has been linked with {slack_channel['channel']['name']}.\nPlease restart the slacktodiscord script to function properly.")
 
 
 @commands.has_guild_permissions(administrator=True)
@@ -83,6 +86,6 @@ async def createslackchannels(ctx):
             # Sleep for API Calls management
             await asyncio.sleep(1)
     writefile("channels.json", channelLinks)
-    await ctx.send("Creating the channels has been completed.")
+    await ctx.send("Creating the channels has been completed.\nPlease restart the slacktodiscord script to function properly.")
 
 discord_bot.run(DISCORD_TOKEN)
