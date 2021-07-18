@@ -8,4 +8,4 @@ def setup():
     for x in needed_files:
         if x not in files:
             with open(x, "w") as f:
-                json.dump({}, f)
+                json.dump([], f)
