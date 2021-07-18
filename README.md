@@ -17,6 +17,7 @@ This is a slack and discord bridge for those who want to connect their slack and
 To run this project, you will need to add the following environment variables to your .env file
 
 `SLACK_BOT_TOKEN=Bot  Token of your slack application.`
+
 `DISCORD_BOT_TOKEN=Bot Token of your discord application.`
 
   
